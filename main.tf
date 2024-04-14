@@ -1,3 +1,21 @@
+# Configure the Cisco ACI Provider
+terraform {
+  required_providers {
+    aci = {
+      source  = "CiscoDevNet/aci"
+      version = "~> 2.14.0"  # Specify the version you want to use
+    }
+  }
+}
+
+provider "aci" {
+  url      = "https://apic.example.com"  # APIC URL
+  username = "admin"                    # APIC Username
+  password = "password"                 # APIC Password
+  insecure = true                       # Skip SSL certificate verification
+}
+
+
 provider "aci" {
   url      = "https://apic-url"
   username = "admin"

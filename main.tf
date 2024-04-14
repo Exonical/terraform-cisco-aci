@@ -1,17 +1,28 @@
-provider "aci" {
-  url      = "https://apic-url"
-  username = "admin"
-  password = "password"
-  insecure = true
+terraform {
+  required_version = ">= 1.7.0"
+
+#  backend "s3" {
+#    bucket = "my-terraform-state-bucket"
+#    key    = "global/terraform.tfstate"
+#    region = "us-west-2"
+    # Include additional backend configurations as necessary.
+#  }
+
+  required_providers {
+    aci = {
+      source  = "CiscoDevNet/aci"
+      version = "~> 2.14.0"
+    }
+  }
 }
 
-module "aci_network" {
-  source            = "./modules/aci_network"
-  tenant_dn         = aci_tenant.example_tenant.id
-  app_profile_dn    = aci_app_profile.example_app_profile.id
-  vrfs              = var.vrfs
+provider "aci" {
+  url      = "https://apic.example.com"
+  username = var.aci_username
+  password = var.aci_password
+  # Include other necessary configurations.
+}
 
-  providers = {
-    aci = aci.ciscodevnet
-  }
+module "environment" {
+  source = "./environments/${terraform.workspace}"
 }
